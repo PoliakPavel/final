@@ -1,17 +1,10 @@
 {% extends 'base.html' %}
 
 {% block sidebar %}
-
-  <div class="list-group">
-    {% for item in categories %}
-    <a href="{% url 'category' item.pk %}" class="list-group-item list-group-item-action ml-3">{{ item.title }}</a>
-    {% endfor %}
-  </div>
-
+{% include 'inc/_sidebar.html' %}
 {% endblock %}
 
 {% block content %}
-
   {% for item in news %}
   <div class="card mb-3">
     <div class="card-header">Категория: {{ item.category }}</div>
