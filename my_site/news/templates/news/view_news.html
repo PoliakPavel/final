@@ -1,22 +1,19 @@
 {% extends 'base.html' %}
+
 {% block title %}
-{{ news_item.title }}
+{{ news_item }}
 {% endblock %}
 
 {% block sidebar %}
-
 {% include 'inc/_sidebar.html' %}
-
 {% endblock %}
 
 {% block content %}
-
-
 <div class="card mb-3">
-  <div class="card-header">Категория: {{news_item.category}}</div>
+  <div class="card-header">Категория: {{ news_item.category }}</div>
   <div class="card-body">
     <div class="media">
-      {% if item.photo %}
+      {% if news_item.photo %}
       <img src="{{ news_item.photo.url }}" width="350" height="300" class="mr-3" alt="">
       {% else %}
       <img src="https://picsum.photos//id/1060/350/300/?blur=2" class="mr-3" alt="">
@@ -24,14 +21,16 @@
 
       <div class="media-body">
         <h5 class="card-title">{{ news_item.title }}</h5>
-        <p class="card-text">{{ news_item.content}}</p>
-      </div>
+        <p class="card-text">{{ news_item.content }}</p>
+        </div>
     </div>
   </div>
   <div class="card-footer text-muted">{{ news_item.created_at|date:"Y-m-d h:i" }} </div>
 </div>
-
-
 {% endblock %}
+
+
+
+
 
 
