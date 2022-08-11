@@ -16,6 +16,7 @@ def get_category(request, category_id):
     category = Category.objects.get(pk=category_id)
     context = {
         'news': news,
+        'title': 'Список новостей',
         'category': category,
     }
     return render(request, 'news/category.html', context)
