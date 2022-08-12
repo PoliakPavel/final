@@ -1,5 +1,5 @@
-from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView
+from django.urls import reverse_lazy
 from .models import *
 from .forms import *
 
@@ -15,7 +15,7 @@ class HomeNews(ListView):
         return context
 
     def get_queryset(self):
-        return News.objects.filter(is_published=True)    #чтобы отображались только опубликованные
+        return News.objects.filter(is_published=True).select_related('category')
 
 
 class NewsByCategory(ListView):
@@ -43,5 +43,5 @@ class VeiwNews(DetailView):
 class CreateNews(CreateView):
     form_class = NewsForm
     template_name = 'news/add_news.html'  # меняем на существующий шаблон
-
+    # success_url = reverse_lazy('home')  типа если надо переопределить переход отличный от get_absolute_url
 
