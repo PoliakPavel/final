@@ -1,24 +1,26 @@
 from django.views.generic import ListView, DetailView, CreateView
 from django.urls import reverse_lazy
+from .utils import Mymixin
 from .models import *
 from .forms import *
 
 
-class HomeNews(ListView):
+class HomeNews(Mymixin, ListView):
     model = News
     template_name = 'news/index.html'  #по дефолту news_list.html
     context_object_name = 'news'  #по дефолту object_list
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Главная страница'
+        context['title'] = self.get_upper('Главная страница')
+        context['mixin_prop'] = self.get_prop()
         return context
 
     def get_queryset(self):
         return News.objects.filter(is_published=True).select_related('category')
 
 
-class NewsByCategory(ListView):
+class NewsByCategory(Mymixin, ListView):
     model = News
     template_name = 'news/index.html'  # сделаем что шаблон одинаковай
     context_object_name = 'news'  # по дефолту object_list
@@ -26,11 +28,11 @@ class NewsByCategory(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = Category.objects.get(pk=self.kwargs['category_id'])
+        context['title'] = self.get_upper(Category.objects.get(pk=self.kwargs['category_id']))
         return context
 
     def get_queryset(self):
-        return News.objects.filter(category_id=self.kwargs['category_id'], is_published=True)
+        return News.objects.filter(category_id=self.kwargs['category_id'], is_published=True).select_related('category')
 
 
 class VeiwNews(DetailView):
